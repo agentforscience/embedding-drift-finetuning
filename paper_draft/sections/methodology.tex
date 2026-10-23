@@ -1,0 +1,38 @@
+\section{Method}
+\label{sec:method}
+
+\subsection{Measuring geometric drift}
+
+Let $f_t$ be the model after $t$ fine-tuning steps and $\{x_i\}_{i=1}^{N}$ a fixed probe set. We represent each probe by $\vh_i^t$, the mean of the hidden states at positions $\geq 1$ of a given layer. We skip position 0 because it acts as an attention sink. We use the final (post-norm) layer as the primary view and the middle layer as a robustness check. All metrics compare step $t$ with step 0.
+
+\para{kNN preservation.} Let $N_k^t(i)$ be the $k$ nearest neighbours of probe $i$ under cosine similarity at step $t$. Preservation is
+\begin{equation}
+    P_k(t) = \frac{1}{N}\sum_{i=1}^{N} \frac{|N_k^0(i)\cap N_k^t(i)|}{k}.
+\end{equation}
+$P_k(t)=1$ means every probe keeps all its neighbours. Our primary metric is $P_{10}$; we also report $k\in\{5,20\}$ and a mean-centred variant that removes the effect of a shared offset.
+
+\para{Global similarity and isotropy.} We compute linear CKA~\citep{kornblith2019similarity} between $\mH^0$ and $\mH^t$. We measure isotropy in three ways: mean pairwise cosine (higher means more anisotropic), IsoScore~\citep{rudman2022isoscore}, and effective rank, the exponential of the entropy of the normalised covariance eigenvalues.
+
+\para{Forgetting.} General knowledge (\gk) is the pooled accuracy on 1,070 items: 570 \mmlu questions~\citep{hendrycks2021measuring} (10 per subject, 0-shot, argmax over the log-probabilities of `` A''--`` D'') and 500 \arce test questions~\citep{clark2018think} (length-normalised accuracy). We also measure per-token NLL on $64\times512$ held-out tokens of \wikitext~\citep{merity2016pointer} and of the in-domain corpus.
+
+\subsection{Models and training}
+
+We use base checkpoints from two families: \qwenS, \qwenM, \qwenL~\citep{qwen2024qwen25}, which share a tokenizer and pretraining corpus, and \pythiaS and \pythiaM~\citep{biderman2023pythia}, trained on the Pile. The standard recipe is identical for every size, so that steps are comparable. It applies LoRA~\citep{hu2022lora} (rank 64, $\alpha=128$, no dropout) to every linear layer and trains with AdamW ($\beta=(0.9,0.95)$, lr 2e-4, 50 warm-up steps then constant, gradient clipping at 1.0, no weight decay). Each step uses a batch of $4\times512$ tokens, so 3,000 steps cover 6.1M tokens. Weights are in bf16 with gradient checkpointing.
+
+\para{Ablations.} To separate model size from update size, we train \qwenS with LoRA at lr 5e-4 and 1e-3, and \pythiaS with full fine-tuning (fp32 master weights, bf16 autocast, lr 1e-5). We run three seeds for \qwenS medical and code, two for \pythiaS medical and code, and one elsewhere; the seed sets document order and LoRA initialisation. In total we analyse 22 runs (\tabref{tab:h1}).
+
+\subsection{Data}
+
+\para{Fine-tuning corpora.} Medical: 40k synthetic clinical notes from \asclepius~\citep{kweon2024publicly}. Code: 30k Python files from \codeparrot-clean-valid (800--20k characters, not auto-generated). General (control): \wikitext training paragraphs. The control separates the effect of being fine-tuned at all from the effect of domain shift. Texts are joined with \eos and cut into 512-token chunks.
+
+\para{Probes.} The primary probe set has 1,000 \wikitext test and validation paragraphs truncated to 128 tokens. Secondary sets have 300 held-out medical and 300 held-out code documents. All probe and evaluation data are disjoint from training data.
+
+\para{Vocabulary overlap.} To test the premise of H4, we compare the Qwen-token unigram distribution of $\sim$2M tokens per corpus with \wikitext, using Jensen--Shannon divergence (JSD), the token mass inside the top 10k \wikitext tokens, and word-type coverage.
+
+\subsection{Evaluation protocol and statistics}
+
+We evaluate 17 checkpoints, at steps 0, 10, 25, 50, 100, 150, 200, 300, 400, 500, 750, 1,000, 1,250, 1,500, 2,000, 2,500, and 3,000. We estimate threshold-crossing steps by linear interpolation in $\log(1+t)$. For forgetting, we run an exact McNemar test on the 1,070 items, comparing each checkpoint with step 0. For H2 we compute Spearman correlations with step and count monotonicity violations. For H3 we compare checkpoints above and below preservation 0.6 with a Mann--Whitney U test, and report Spearman correlations. For H4 we use a paired Wilcoxon test over checkpoints matched on model, method, learning rate, seed, and step.
+
+\para{Training health.} We label a run as \emph{learned} if its final in-domain NLL is more than 0.05 nats below the step-0 value, \emph{diverged} if it is more than 0.25 nats above, and \emph{no gain} otherwise. This label turns out to be central to interpreting H1.
+
+\para{Compute.} All runs used 4 shared RTX A6000 GPUs, usually with 2--6\,GB free per GPU. A \pythiaS run took 7--10 minutes and a \qwenS run 20--26 minutes. The \qwenM and \qwenL medical runs were stopped at steps 2,500 and 1,500 because of GPU contention. A 7B run started but ran out of memory when another job on the same GPU grew (\secref{sec:limitations}).

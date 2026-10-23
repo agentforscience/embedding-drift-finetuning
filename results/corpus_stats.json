@@ -1,0 +1,23 @@
+{
+ "medical": {
+  "jsd_vs_wikitext": 0.44910371925063286,
+  "top10k_token_mass": 0.6729806091883738,
+  "word_coverage": 0.90362672627528,
+  "n_tokens": 2000071,
+  "n_token_types": 21689
+ },
+ "code": {
+  "jsd_vs_wikitext": 0.629484315418108,
+  "top10k_token_mass": 0.3567306836623174,
+  "word_coverage": 0.8046880498093649,
+  "n_tokens": 2000198,
+  "n_token_types": 44969
+ },
+ "general": {
+  "jsd_vs_wikitext": 0.012977000307968105,
+  "top10k_token_mass": 0.9111499512054649,
+  "word_coverage": 0.9708904478912488,
+  "n_tokens": 2000224,
+  "n_token_types": 40150
+ }
+}

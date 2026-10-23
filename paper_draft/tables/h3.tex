@@ -1,0 +1,21 @@
+\begin{table}[t]
+    \centering
+    \small
+    \caption{First checkpoint with a significant drop in general-knowledge accuracy (McNemar $p<.05$ against step 0) and the preservation at that point. Only the \pythiaS LoRA runs, all of which diverged, start forgetting below the hypothesised 0.6 threshold.}
+    \label{tab:h3_onset}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Run} & \textbf{Onset step} & \textbf{Preservation at onset} \\
+        \midrule
+        \qwenS medical (seeds 1/2/3) & 500 / 400 / 750 & 0.79 / 0.80 / 0.77 \\
+        \qwenS general & 100 & 0.81 \\
+        \qwenS lr 5e-4 (medical / code) & 50 / 300 & 0.82 / 0.81 \\
+        \qwenS lr 1e-3 (medical / code) & 50 / 100 & 0.78 / 0.78 \\
+        \qwenM medical & 50 & 0.90 \\
+        \qwenL medical & 200 & 0.84 \\
+        \pythiaM (medical / code) & 150 / 500 & 0.79 / 0.81 \\
+        \pythiaS LoRA (5 runs) & 100--300 & 0.43--0.50 \\
+        \pythiaS full FT (code / medical) & 1,500 / 2,500 & 0.73 / 0.67 \\
+        \bottomrule
+    \end{tabular}
+\end{table}

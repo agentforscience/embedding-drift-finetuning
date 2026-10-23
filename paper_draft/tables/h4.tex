@@ -1,0 +1,23 @@
+\begin{table}[t]
+    \centering
+    \small
+    \caption{Medical \versus code fine-tuning. \textbf{Top:} paired differences over 144 checkpoints matched on model, recipe, seed, and step (Wilcoxon signed-rank). Negative preservation differences mean medical preserves \emph{less}. \textbf{Bottom:} vocabulary overlap of each corpus with \wikitext ($\sim$2M Qwen tokens each). Medical text is much closer to general text, yet it preserves less general-text geometry.}
+    \label{tab:h4}
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Paired comparison} & \textbf{Medical $-$ code} & \textbf{$p$} \\
+        \midrule
+        \pres & $-0.043$ (medical higher at 17\%) & $3\times10^{-12}$ \\
+        Centred \pres & $-0.044$ & $3\times10^{-14}$ \\
+        CKA & $-0.011$ & $2\times10^{-11}$ \\
+        $\Delta$ \gk accuracy & $-1.9$\pp (medical forgets more) & $3\times10^{-10}$ \\
+        $\Delta$ \wikitext NLL & $+0.21$ nats (medical forgets more) & $9\times10^{-18}$ \\
+        \midrule
+        \textbf{Corpus overlap with \wikitext} & \textbf{Medical} & \textbf{Code} \\
+        \midrule
+        Unigram JSD (bits, $\downarrow$ closer) & {\bf 0.45} & 0.63 \\
+        Token mass in top-10k \wikitext tokens & {\bf 67\%} & 36\% \\
+        Word-type coverage & {\bf 90\%} & 80\% \\
+        \bottomrule
+    \end{tabular}
+\end{table}

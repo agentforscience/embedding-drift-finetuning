@@ -1,0 +1,22 @@
+q0.5b_lora_medical_s1 --model Qwen/Qwen2.5-0.5B --domain medical --seed 1
+q0.5b_lora_code_s1 --model Qwen/Qwen2.5-0.5B --domain code --seed 1
+q0.5b_lora_general_s1 --model Qwen/Qwen2.5-0.5B --domain general --seed 1
+q0.5b_lora_medical_s1_lr1e-3 --model Qwen/Qwen2.5-0.5B --domain medical --seed 1 --lr 1e-3
+q0.5b_lora_code_s1_lr1e-3 --model Qwen/Qwen2.5-0.5B --domain code --seed 1 --lr 1e-3
+q0.5b_lora_medical_s2 --model Qwen/Qwen2.5-0.5B --domain medical --seed 2
+q0.5b_lora_code_s2 --model Qwen/Qwen2.5-0.5B --domain code --seed 2
+q0.5b_lora_medical_s3 --model Qwen/Qwen2.5-0.5B --domain medical --seed 3
+q0.5b_lora_code_s3 --model Qwen/Qwen2.5-0.5B --domain code --seed 3
+p160m_lora_medical_s1 --model EleutherAI/pythia-160m --domain medical --seed 1
+p160m_lora_code_s1 --model EleutherAI/pythia-160m --domain code --seed 1
+p160m_full_medical_s1 --model EleutherAI/pythia-160m --domain medical --seed 1 --method full
+p160m_full_code_s1 --model EleutherAI/pythia-160m --domain code --seed 1 --method full
+p410m_lora_medical_s1 --model EleutherAI/pythia-410m --domain medical --seed 1
+p410m_lora_code_s1 --model EleutherAI/pythia-410m --domain code --seed 1
+p160m_lora_general_s1 --model EleutherAI/pythia-160m --domain general --seed 1
+p160m_lora_medical_s2 --model EleutherAI/pythia-160m --domain medical --seed 2
+p160m_lora_code_s2 --model EleutherAI/pythia-160m --domain code --seed 2
+q0.5b_lora_medical_s1_lr5e-4 --model Qwen/Qwen2.5-0.5B --domain medical --seed 1 --lr 5e-4
+q0.5b_lora_code_s1_lr5e-4 --model Qwen/Qwen2.5-0.5B --domain code --seed 1 --lr 5e-4
+p410m_lora_medical_s2 --model EleutherAI/pythia-410m --domain medical --seed 2 --eval_bs 8
+p410m_lora_code_s2 --model EleutherAI/pythia-410m --domain code --seed 2 --eval_bs 8

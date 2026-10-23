@@ -1,0 +1,8 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We tracked how fine-tuning reshapes the local neighbourhood structure of language-model representations across 22 runs, five model sizes, three domains, and 17 checkpoints. Fine-tuning changes neighbourhoods quickly, mostly within the first $\sim$100 steps, and larger models change less at matched steps. All four specific hypotheses fail. Collapse below 50\% depends on the learning rate and on training stability more than on a sub-1B \versus 7B split. Isotropy never declines monotonically. Benchmark forgetting begins while preservation is still around 0.8, not at 0.6. Code fine-tuning, not medical, preserves more general-text geometry for most models, despite lower vocabulary overlap.
+
+{\bf Takeaway:} kNN preservation is a cheap proxy for damage to general language modelling and a reliable sign of unstable fine-tuning. It is not a universal forgetting threshold.
+
+Future work should run 7B models and complete the 1.5B and 3B code runs on dedicated hardware, fit crossing time as a function of update norm with a learning-rate $\times$ size grid, and compare domains matched on in-domain loss reduction. A lead-time analysis would show whether probe-set NLL, CKA, or kNN preservation gives the earliest warning. Replay or L2-SP regularisation~\citep{li2018explicit} could test whether preservation can be decoupled from forgetting.

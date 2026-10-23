@@ -1,0 +1,31 @@
+\section{Discussion}
+\label{sec:discussion}
+
+{\bf Is collapse speed a property of model size?} Only partly. Within a family and a fixed recipe, larger models keep more geometry and forget less, which agrees with prior reports that larger models forget less~\citep{kalajdzievski2024scaling}. But the number of steps until preservation falls below 50\% is not a size constant. It depends mainly on update size (learning rate, LoRA \versus full fine-tuning) and on whether optimisation stays healthy. Under the standard recipe, healthy runs of models from 410M to 3B level off at 0.7--0.85 on a log-step axis. Extrapolating, a 7B model would very likely stay above 0.5 past 2,000 steps. That would make H1's 7B clause true but uninformative, since a 0.5B model already behaves this way. We did not measure 7B.
+
+{\bf What is preservation good for?} We see three uses and one non-use.
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item It is a cheap, label-free proxy for damage to general-text language modelling, and its relation to $\Delta$NLL is nearly the same across models ($\rho=-0.90$).
+    \item A sharp early drop (\eg below $\sim$0.6 within a few hundred steps) is a strong sign of over-aggressive or unstable fine-tuning. Every such run in our study also had rising in-domain loss.
+    \item Because most drift happens in the first $\sim$100 steps, a monitor can flag a bad learning rate very early in training.
+    \item It is not a calibrated alarm for benchmark forgetting. Qwen models lose \mmlu and \arce accuracy at preservation 0.8--0.9, and part of the \mmlu loss reflects losing the multiple-choice answer \emph{format}: plain language-model training on \wikitext costs \qwenS 11\pp on \mmlu. A practical monitor should combine the \emph{rate} of preservation loss with a family-specific calibration, or track probe-set NLL directly.
+\end{itemize}
+
+{\bf Why do global and local geometry disagree?} Fine-tuning reorders local neighbourhoods long before it changes the global spectrum of the space. Isotropy summarises the covariance of all probes, so it stays within a few percent while 20--80\% of neighbour overlap is lost. Global isotropy statistics are therefore poor drift indicators.
+
+{\bf Surprises.} Three results ran against our expectations. First, in-distribution fine-tuning on \wikitext drifts about as much as domain fine-tuning and causes the largest \mmlu loss for \qwenS. Second, \pythiaS diverges under LoRA at lr 2e-4 in every domain, while full fine-tuning at lr 1e-5 learns stably. Third, fine-tuning Qwen2.5 on Python barely changes in-domain loss, because these base models are already strong on code.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\para{Scale coverage.} We have no 7B results. A 7B run started on the only large GPU slice but ran out of memory when another user's job grew; at the measured $\sim$7\,s per step plus 8.5 minutes per evaluation, it could not have finished. The \qwenM and \qwenL medical runs stop at 2,500 and 1,500 steps, and we have no 1.5B or 3B code runs, so H4 is tested only at $\leq$0.5B.
+
+\para{Recipe coverage.} Each size uses one standard recipe, and the learning-rate and full fine-tuning ablations cover one model each. In practice larger models often get smaller learning rates, which would reduce their drift further.
+
+\para{Domain confound.} Code fine-tuning did not lower in-domain loss, so the domain contrast is confounded with the amount of adaptation. A design that matches in-domain loss reduction across domains would separate the two explanations in \secref{sec:h4}.
+
+\para{Seeds and noise.} Only \qwenS (three seeds) and \pythiaS (two seeds) medical and code runs are replicated. Seed variation is small for Qwen ($\leq 0.016$) but reaches $\sim$0.09 for the diverging \pythiaS runs. A single \gk estimate on 1,070 items has about $\pm$2.5\pp sampling noise, which paired McNemar tests reduce but do not remove. \mmlu is at chance for Pythia.
+
+\para{Probes and proxies.} We use mean-pooled 128-token \wikitext probes. Token-level or static-embedding neighbourhoods may behave differently, and under LoRA the input embedding matrix is frozen. \wikitext stands in for pretraining data, and the medical corpus consists of LLM-written synthetic notes rather than real clinical text.
+
+\para{Broader impact.} A cheap geometric monitor could reduce the compute spent on evaluation during fine-tuning. Our results warn against relying on one fixed threshold: a monitor tuned on one model family could miss substantial forgetting in another, which matters when fine-tuned models are deployed in sensitive domains such as medicine.

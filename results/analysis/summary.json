@@ -1,0 +1,175 @@
+{
+ "h2": {
+  "n_runs": 22,
+  "n_monotone_more_anisotropic": {
+   "avg_cos": 0,
+   "isoscore": 0,
+   "eff_rank": 0
+  },
+  "n_net_more_anisotropic": {
+   "avg_cos": 14,
+   "isoscore": 18,
+   "eff_rank": 17
+  },
+  "median_rel_change": {
+   "avg_cos": 0.023120411202789324,
+   "isoscore": -0.08279930440930325,
+   "eff_rank": -0.05722649157989801
+  }
+ },
+ "h3": {
+  "n_ckpt_pres_ge_0.6": 260,
+  "n_ckpt_pres_lt_0.6": 88,
+  "mean_d_gk_pres_ge_0.6": -0.026746944644140923,
+  "mean_d_gk_pres_lt_0.6": -0.09183305012744265,
+  "frac_sig_decline_pres_ge_0.6": 0.3923076923076923,
+  "frac_sig_decline_pres_lt_0.6": 0.8181818181818182,
+  "mwu_p": 4.905115838403609e-12,
+  "spearman_pres_vs_dgk_all": [
+   0.6943700411186196,
+   2.2207072722514226e-51
+  ],
+  "spearman_pres_vs_dnllgen_all": [
+   -0.895533138030876,
+   1.0245117471175584e-123
+  ]
+ },
+ "h4": {
+  "n_matched_ckpts": 144,
+  "mean_diff_med_minus_code": -0.04262569444444448,
+  "frac_med_gt_code": 0.16666666666666666,
+  "wilcoxon_p": 3.4405302013964717e-12,
+  "per_run_last_common_step": [
+   {
+    "model": "0.5B",
+    "method": "lora",
+    "variant": "lr1e-3",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.2697,
+    "general": NaN,
+    "medical": 0.2222,
+    "diff": -0.0475
+   },
+   {
+    "model": "160M",
+    "method": "lora",
+    "variant": "base",
+    "seed": 2,
+    "step": 3000,
+    "code": 0.3035,
+    "general": NaN,
+    "medical": 0.3525,
+    "diff": 0.049
+   },
+   {
+    "model": "160M",
+    "method": "lora",
+    "variant": "base",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.2504,
+    "general": 0.431,
+    "medical": 0.2765,
+    "diff": 0.0261
+   },
+   {
+    "model": "0.5B",
+    "method": "lora",
+    "variant": "lr5e-4",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.6258,
+    "general": NaN,
+    "medical": 0.5664,
+    "diff": -0.0594
+   },
+   {
+    "model": "160M",
+    "method": "full",
+    "variant": "base",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.5052,
+    "general": NaN,
+    "medical": 0.6214,
+    "diff": 0.1162
+   },
+   {
+    "model": "0.5B",
+    "method": "lora",
+    "variant": "base",
+    "seed": 2,
+    "step": 3000,
+    "code": 0.8087,
+    "general": NaN,
+    "medical": 0.7123,
+    "diff": -0.0964
+   },
+   {
+    "model": "0.5B",
+    "method": "lora",
+    "variant": "base",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.8166,
+    "general": 0.7562,
+    "medical": 0.7394,
+    "diff": -0.0772
+   },
+   {
+    "model": "0.5B",
+    "method": "lora",
+    "variant": "base",
+    "seed": 3,
+    "step": 3000,
+    "code": 0.8086,
+    "general": NaN,
+    "medical": 0.7409,
+    "diff": -0.0677
+   },
+   {
+    "model": "410M",
+    "method": "lora",
+    "variant": "base",
+    "seed": 1,
+    "step": 3000,
+    "code": 0.7396,
+    "general": NaN,
+    "medical": 0.7126,
+    "diff": -0.027
+   }
+  ],
+  "mean_diff_pres10_centered": -0.043808333333333345,
+  "wilcoxon_p_pres10_centered": 2.909350721356031e-14,
+  "mean_diff_cka": -0.011383111184792695,
+  "wilcoxon_p_cka": 1.9088718199284707e-11,
+  "mean_diff_d_gk": -0.01903556593977155,
+  "wilcoxon_p_d_gk": 2.571157210244779e-10,
+  "mean_diff_d_nll_general": 0.20936876048329703,
+  "wilcoxon_p_d_nll_general": 9.20403241991501e-18
+ },
+ "corpus_stats": {
+  "medical": {
+   "jsd_vs_wikitext": 0.44910371925063286,
+   "top10k_token_mass": 0.6729806091883738,
+   "word_coverage": 0.90362672627528,
+   "n_tokens": 2000071,
+   "n_token_types": 21689
+  },
+  "code": {
+   "jsd_vs_wikitext": 0.629484315418108,
+   "top10k_token_mass": 0.3567306836623174,
+   "word_coverage": 0.8046880498093649,
+   "n_tokens": 2000198,
+   "n_token_types": 44969
+  },
+  "general": {
+   "jsd_vs_wikitext": 0.012977000307968105,
+   "top10k_token_mass": 0.9111499512054649,
+   "word_coverage": 0.9708904478912488,
+   "n_tokens": 2000224,
+   "n_token_types": 40150
+  }
+ }
+}

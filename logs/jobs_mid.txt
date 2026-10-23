@@ -1,0 +1,7 @@
+q1.5b_lora_medical_s1 --model Qwen/Qwen2.5-1.5B --domain medical --seed 1 --eval_bs 4
+q1.5b_lora_code_s1 --model Qwen/Qwen2.5-1.5B --domain code --seed 1 --eval_bs 4
+q1.5b_lora_general_s1 --model Qwen/Qwen2.5-1.5B --domain general --seed 1 --eval_bs 4
+q1.5b_lora_medical_s2 --model Qwen/Qwen2.5-1.5B --domain medical --seed 2 --eval_bs 4
+q1.5b_lora_code_s2 --model Qwen/Qwen2.5-1.5B --domain code --seed 2 --eval_bs 4
+q1.5b_lora_medical_s3 --model Qwen/Qwen2.5-1.5B --domain medical --seed 3 --eval_bs 4
+q1.5b_lora_code_s3 --model Qwen/Qwen2.5-1.5B --domain code --seed 3 --eval_bs 4
